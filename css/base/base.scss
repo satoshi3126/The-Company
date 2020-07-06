@@ -1,0 +1,316 @@
+// -----
+// 設定
+// -----
+
+// 色
+$color-main: #3f51b5; // ベース色
+$color-active: #e81919; // アクティブ色
+$color-background-base: #fff; // 背景色
+$color-text-base: #333; // テキスト色
+$hover-opacity: 0.6; // 透過度
+
+// レイアウト幅
+$layout-width-canvas: 1366px;
+$layout-width-inner: 1088px;
+
+// ブレークポイント
+$breakpoints: (
+	"sp": "(max-width: 767px)",
+	"tab-only": "(min-width: 768px) and (max-width: #{$layout-width-inner - 1px})",
+	"tab": "(max-width: #{$layout-width-inner - 1px})",
+	"pc": "(min-width: #{$layout-width-inner})",
+);
+
+// 階層
+$layer: (
+	modal: 100, // モダール
+	drawer: 40, // ドロワー
+	floating: 30, // フローティングアイテム
+	header: 20, // ヘッダー
+	footer: 10, // フッター
+	default: 1,
+);
+
+// 余白
+$padding-tab: 24px;
+$padding-sp: 16px;
+
+// Googleフォント
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+// フォント
+$font-family-default: "游ゴシック体", "Yu Gothic", yugothic, "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", meiryo, "MS Pゴシック", "MS PGothic", sans-serif; // 標準フォント
+$font-family-english: 'Lato', sans-serif; // 英語フォント
+$font-family-japanese: 'Noto Sans JP', sans-serif; // 日本語フォント
+$font-family-base: $font-family-japanese;
+$font-size-base: 16px;
+$font-weight-base: 400;
+$line-height-base: 1.6;
+
+// メディアクエリー
+@mixin mq($breakpoint: sp) {
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+// ハンバーガーアイコン
+$drawer-bar-space: 5px;
+$drawer-bar-width: 28px;
+$drawer-bar-height: 4px;
+$drawer-content-width: 200px;
+
+// -----
+// 初期化
+// -----
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: $font-family-base;
+	font-size: $font-size-base;
+	font-weight: $font-weight-base;
+	color: $color-text-base;
+	line-height: $line-height-base;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: $color-background-base;
+	overflow-x: hidden;
+	overflow-wrap: break-word;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	border: none;
+}
+
+
+// -----
+// 補完クラス
+// -----
+
+// PCだけ非表示
+.hidden-pc {
+	@include mq('pc') {
+		display: none;
+	}
+}
+
+// タブレットだけ非表示
+.hidden-tab {
+	@include mq('tab-only') {
+		display: none;
+	}
+}
+
+// スマホだけ非表示
+.hidden-sp {
+	@include mq('sp') {
+		display: none;
+	}
+}
+
+// テキスト色の強調
+.color-active {
+	color: $color-active;
+}
+
+// テキストサイズの縮小
+.font-size-small {
+	font-size: 0.9em;
+}
+
+// テキストの強調（色と大きさ）
+.font-em {
+	font-weight: 700;
+	color: $color-active;
+	font-size: 1.1em;
+}
+
+// -----
+// 共通パーツ
+// -----
+
+// インナー
+.inner {
+	width: $layout-width-inner;
+	max-width: 100%;
+	margin: 0 auto;
+	height: inherit;
+
+	@include mq('tab') {
+		padding-left: $padding-tab;
+		padding-right: $padding-tab;
+	}
+
+	@include mq('sp') {
+		padding-left: $padding-sp;
+		padding-right: $padding-sp;
+	}
+}
+
+// ボタン（ベース）
+.button {
+	display: inline-block;
+	background: $color-main;
+	color: #fff;
+	text-align: center;
+	padding: 1em 3em;
+	font-size: $font-size-base;
+	font-weight: 700;
+	text-decoration: none;
+	box-shadow: 0 3px 6px rgba(#000, 0.16);
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+// ボタン（メインビジュアル）
+.button-mainvisual {
+	@extend .button;
+
+	transition: all 0.5s ease 0s;
+	padding: 12px 80px;
+	border-radius: 12px;
+	font-size: 38px;
+
+	@include mq('tab') {
+		font-size: 30px;
+		padding-left: 52px;
+		padding-right: 52px;
+	}
+
+	@include mq('sp') {
+		padding: 10px 36px;
+		border-radius: 8px;
+		font-size: 20px;
+	}
+
+	&:hover {
+		transform: scale(1.1);
+	}
+}
+
+// ボタン（電話）
+.button-tel {
+	@extend .button;
+
+	padding: 10px 26px;
+	font-size: 18px;
+	border-radius: 8px;
+	background: $color-active;
+
+	&:hover {
+		opacity: $hover-opacity;
+	}
+
+	@include mq('tab') {
+		font-size: 16px;
+	}
+
+	@include mq('sp') {
+		padding: 4px 18px;
+		border-radius: 6px;
+	}
+}
+
+// ボタン（右矢印）
+.button-arrow-right {
+	@extend .button;
+
+	border-radius: 12px;
+	font-size: 20px;
+	padding: 13px 58px 12px;
+	position: relative;
+
+	@include mq('tab') {
+		padding-left: 50px;
+		padding-right: 50px;
+	}
+
+	@include mq('sp') {
+		padding: 10px 36px;
+		border-radius: 8px;
+		font-size: 18px;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		right: 18px;
+		width: 13px;
+		height: 20px;
+		background: transparent url(/img/access-arrow.svg) no-repeat center center / contain;
+
+		@include mq('sp') {
+			right: 10px;
+			width: (13px * 0.92);
+			height: (20px * 0.92);
+		}
+	}
+
+	&:hover {
+		opacity: $hover-opacity;
+	}
+}
+
+// ボタン（モーダル内）
+.button-modal {
+	@extend .button;
+
+	border-radius: 12px;
+	width: 180px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+
+	&:hover {
+		opacity: $hover-opacity;
+	}
+}
+
+// セクションタイトル
+.section-title {
+	font-size: 60px;
+	font-weight: 700;
+	padding: 0 0 28px;
+	margin: 0;
+	position: relative;
+	text-align: center;
+
+	&::after {
+		content: "";
+		background: #3f51b5;
+		width: 76px;
+		height: 5px;
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+
+		@include mq('sp') {
+			width: 48px;
+		}
+	}
+
+	@include mq('tab') {
+		font-size: 50px;
+		padding-bottom: 28px;
+	}
+
+	@include mq('sp') {
+		font-size: 42px;
+		padding-bottom: 16px;
+	}
+}
